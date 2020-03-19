@@ -76,7 +76,7 @@ public class GetData{
     	JSONArray users_info = new JSONArray();
 		
 	    // Your implementation goes here....		
-        try (Statement stmt = oracle.createStatement()) {
+        try (Statement stmt = oracleConnection.createStatement()) {
             
             ResultSet rst = stmt.executeQuery(
             "SELECT user_id, first_name, last_name, gender, year_of_birth, month_of_birth, day_of_birth " +         
@@ -108,28 +108,59 @@ public class GetData{
                 user.put("YOB", yob);
                 user.put("MOB", mob);
                 user.put("DOB", dob);
-                Statement stmth = oracle.createStatement();
-                Statement stmtc = oracle.createStatement();
+                Statement stmth = oracleConnection.createStatement();
+                Statement stmtc = oracleConnection.createStatement();
                 ResultSet rsth = stmth.executeQuery(
                 "SELECT c.city_name, c.state_name, c.country_name " +  
                 "FROM " + cityTableName + " c, " + hometownCityTableName + " h " +
                 "WHERE h.hometown_city_id = c.city_id and h.user_id = " + userID);
-                home_city.put("city", rsth.getString(1));
-                home_city.put("state", rsth.getString(2));
-                home_city.put("country", rsth.getString(3));
-                user.put("homtown", home_city);
+                String city = "";
+                String state = "";
+                String country = "";
+                while (rsth.next()) {
+                    city = rsth.getString(1);
+                    state = rsth.getString(2);
+                    country = rsth.getString(3);
+                }
+                home_city.put("city", city);
+                home_city.put("state", state);
+                home_city.put("country", country);
+                user.put("hometown", home_city);
                 ResultSet rstc = stmtc.executeQuery(
                 "SELECT c.city_name, c.state_name, c.country_name " +  
                 "FROM " + cityTableName + " c, " + currentCityTableName + " h " +
                 "WHERE h.current_city_id = c.city_id and h.user_id = " + userID);
-                curr_city.put("city", rstc.getString(1));
-                curr_city.put("state", rstc.getString(2));
-                curr_city.put("country", rstc.getString(3));
+                while (rstc.next()) {
+                    city = rstc.getString(1);
+                    state = rstc.getString(2);
+                    country = rstc.getString(3);
+                }
+                curr_city.put("city", city);
+                curr_city.put("state", state);
+                curr_city.put("country", country);
                 user.put("current", curr_city);
+
+                
                 rsth.close();
                 stmth.close();
                 rstc.close();
                 stmtc.close();
+
+                Statement stmtf = oracleConnection.createStatement();
+                ResultSet rstf = stmtf.executeQuery(
+                    "SELECT user1_id FROM " + friendsTableName + " " +
+                    "WHERE user2_id = " + userID +" and user1_id > " + userID + " " +
+                    "UNION " +
+                    "SELECT user2_id FROM " + friendsTableName + " " +
+                    "WHERE user1_id = " + userID +" and user2_id > " + userID);
+                JSONArray friends = new JSONArray();
+                while (rstf.next()) {
+                    friends.put(rstf.getLong(1));
+                }
+                user.put("friends", friends);
+                users_info.put(user);
+                rstf.close();
+                stmtf.close();
             }
             rst.close();
             stmt.close();
