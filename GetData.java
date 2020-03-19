@@ -76,11 +76,11 @@ public class GetData{
     	JSONArray users_info = new JSONArray();
 		
 	    // Your implementation goes here....		
-        try (Statement stmt = oracle.createStatement()) {
+        try (Statement stmt = oracleConnection.createStatement()) {
             
             ResultSet rst = stmt.executeQuery(
             "SELECT user_id, first_name, last_name, gender, year_of_birth, month_of_birth, day_of_birth " +         
-            "FROM " + userTableName + " "); 
+            "FROM " + userTableName + " ");
             Long userID;
             String firstName;
             String lastName;
@@ -108,8 +108,8 @@ public class GetData{
                 user.put("YOB", yob);
                 user.put("MOB", mob);
                 user.put("DOB", dob);
-                Statement stmth = oracle.createStatement();
-                Statement stmtc = oracle.createStatement();
+                Statement stmth = oracleConnection.createStatement();
+                Statement stmtc = oracleConnection.createStatement();
                 ResultSet rsth = stmth.executeQuery(
                 "SELECT c.city_name, c.state_name, c.country_name " +  
                 "FROM " + cityTableName + " c, " + hometownCityTableName + " h " +
