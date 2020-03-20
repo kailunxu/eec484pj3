@@ -16,6 +16,28 @@
 function suggest_friends(year_diff, dbname) {
     db = db.getSiblingDB(dbname);
     var pairs = [];
+    var result = db.users.find();
+    for (var i = 0; i < result.length(); i++) {
+        for (var j = 0; j < result.length(); j++) {
+            if (result[i]["gender"] == "male" && result[j]["gender"] == "female") {
+                if (result[i]["hometown"]["city"] == result[j]["hometown"]["city"] &&
+                    result[i]["hometown"]["state"] == result[j]["hometown"]["state"] &&
+                    result[i]["hometown"]["country"] == result[j]["hometown"]["country"]) {
+                    if (Math.abs(result[i]["YOB"] - result[j]["YOB"]) < year_diff) {
+                        if (result[i]["user_id"] < result[j][user_id]) {
+                            if (result[i]["friends"].indexof(result[j][user_id]) != -1) {
+                                pairs.push([result[i]["user_id"], result[j]["user_id"]]);
+                            }
+                        } else {
+                            if (result[j]["friends"].indexof(result[i][user_id]) != -1) {
+                                pairs.push([result[i]["user_id"], result[j]["user_id"]]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     // TODO: implement suggest friends
     // Return an array of arrays.
     return pairs;
