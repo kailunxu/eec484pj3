@@ -24,12 +24,12 @@ function suggest_friends(year_diff, dbname) {
                     result[i]["hometown"]["state"] == result[j]["hometown"]["state"] &&
                     result[i]["hometown"]["country"] == result[j]["hometown"]["country"]) {
                     if (Math.abs(result[i]["YOB"] - result[j]["YOB"]) < year_diff) {
-                        if (result[i]["user_id"] < result[j][user_id]) {
-                            if (result[i]["friends"].indexof(result[j][user_id]) != -1) {
+                        if (result[i]["user_id"] < result[j]["user_id"]) {
+                            if (result[i]["friends"].indexOf(result[j]["user_id"]) == -1) {
                                 pairs.push([result[i]["user_id"], result[j]["user_id"]]);
                             }
                         } else {
-                            if (result[j]["friends"].indexof(result[i][user_id]) != -1) {
+                            if (result[j]["friends"].indexOf(result[i]["user_id"]) == -1) {
                                 pairs.push([result[i]["user_id"], result[j]["user_id"]]);
                             }
                         }

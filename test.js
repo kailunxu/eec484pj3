@@ -1,6 +1,6 @@
 // fill in your database name
 // Your dbname is your uniqname
-var dbname = 'uniqname';
+var dbname = 'xukailun';
 
 var l1 = load('query1.js')
 var l2 = load('query2.js')
@@ -60,25 +60,7 @@ if (ans4 == 88){
 
 
 // test query5
-print("===Test5=== (This test is time comsuming)")
-var test5 = oldest_friend(dbname);
-if(Object.keys(test5).length == 798){
-	if(test5.hasOwnProperty(799)){
-		var ans5 = test5[799];
-		if(test5[799] == 51){
-			print("Local test passed! Partially correct.");
-		} else {
-			print("Incorrect.")
-			print("Oldest friend for user 799 is 51, you found ", ans5)
-		}
- 	} else {
-		print("Incorrect.")
-		print("No oldest friend for user 799.")
-	}
-} else {
-	print("Incorrect.")
-	print("Result should have 798 oldest friends, ", Object.keys(test5).length, " found.")
-}
+
 
 
 // test query6
@@ -88,7 +70,7 @@ if (test6 > 26 & test6 < 27) {
 	print("Local test passed! Partially correct.");
 } else {
 	print("Incorrect.");
-	print("The average number of friends is between 26 to 27, you got ", ans6);
+	print("The average number of friends is between 26 to 27, you got ", test6);
 }
 
 
