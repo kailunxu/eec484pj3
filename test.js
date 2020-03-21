@@ -84,6 +84,10 @@ var result7 = db.users.mapReduce(
 		finalize: num_month_finalizer
 	});
 var ans7 = db.born_each_month.count();
+var friend = db.born_each_month.find();
+for (var i = 0; i < ans7; i++) {
+	print(friend[i]["value"]);
+}
 if (ans7 == 12) {
 	print("Local test passed! Partially correct.");
 } else {
@@ -102,6 +106,11 @@ var result8 = db.users.mapReduce(
   }
 );
 var ans8 = db.friend_city_population.count();
+var friend = db.friend_city_population.find();
+for (var i = 0; i < ans8; i++) {
+	print(friend[i]["value"]);
+}
+print(db.friend_city_population.key);
 if (ans8 == 16) {
 	print("Local test passed! Partially correct.");
 } else {

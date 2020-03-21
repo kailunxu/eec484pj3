@@ -1,12 +1,11 @@
 //  Find the number of users born in each month using MapReduce
 
 var num_month_mapper = function() {
-  emit(this.MOB, this.user_id);
+  emit(this.MOB, 1);
 }
 
 var num_month_reducer = function(key, values) {
-
-  return values.length;
+  return Array.sum(values);
 }
 
 var num_month_finalizer = function(key, reduceVal) {
